@@ -39,7 +39,7 @@ end day3_comparator;
 
 architecture Behavioral of day3_comparator is
 
-signal compareout : STD_LOGIC_VECTOR(8 downto 0);
+signal compareout : STD_LOGIC_VECTOR(7 downto 0);
 signal andStep: STD_LOGIC := '0';
 
 begin

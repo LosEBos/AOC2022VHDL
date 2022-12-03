@@ -41,21 +41,20 @@ end day3_testbench;
 
 architecture Behavioral of day3_testbench is
     
-    signal input1: unsigned(23*8 downto 0);
-    signal input2: unsigned(23*8 downto 0);
+    signal input1: unsigned(23*8-1 downto 0);
+    signal input2: unsigned(23*8-1 downto 0);
     signal output: unsigned(18 downto 0) := (others => '0');
-    
+       
     signal clock_tb: std_logic;
     
     file file_VECTORS : text;
   
---    component day2 is
---    Port ( inA : in unsigned(1 downto 0);
-----           inB : in unsigned(1 downto 0);
---           CLK : in STD_LOGIC;
---           output : out unsigned(18 downto 0);
---           output2 : out unsigned(18 downto 0));
---    end component;
+component day3 is
+    Port ( input1 : in STD_LOGIC_VECTOR (23*8-1 downto 0);
+           input2 : in STD_LOGIC_VECTOR (23*8-1 downto 0);
+           output : out unsigned(18 downto 0);
+           clk : in STD_LOGIC);
+end component day3;
     
     begin
  
@@ -82,12 +81,14 @@ process
         for j in 0 to v_ILINE'length/2-1 loop
             read(v_ILINE, v_TERM1);
             input1(j*8 + 7 downto j*8) <= TO_UNSIGNED(character'pos(v_TERM1), 8);
+           -- inVec1 <= STD_LOGIC_VECTOR(input1);
         end loop;
       
         -- No need for length/2 since it has been reduces from previous
         for k in 0 to v_ILINE'length-1 loop
             read(v_ILINE, v_TERM1);
             input2(k*8 + 7 downto k*8) <= TO_UNSIGNED(character'pos(v_TERM1), 8);
+           -- inVec2 <= STD_LOGIC_VECTOR(input2);
         end loop;
         
         wait for 6 ns;
@@ -100,7 +101,7 @@ process
     
 end process;
 ----------------------------------------------------------------------------------
---    comp: day2 port map( inA => input1, inB => input2, output => output, output2 => output2, CLK => clock_tb);
+    comp: day3 port map( input1 => STD_LOGIC_VECTOR(input1), input2 => STD_LOGIC_VECTOR(input2), output => output, clk => clock_tb);
     
     process
     begin
